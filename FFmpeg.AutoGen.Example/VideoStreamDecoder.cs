@@ -27,6 +27,7 @@ namespace FFmpeg.AutoGen.Example
             for (var i = 0; i < _pFormatContext->nb_streams; i++)
                 if (_pFormatContext->streams[i]->codec->codec_type == AVMediaType.AVMEDIA_TYPE_VIDEO)
                 {
+                //needed
                     if((_pFormatContext->streams[i]->codec->width!=0)&&(_pFormatContext->streams[i]->codec->height != 0))
                     {
                         pStream = _pFormatContext->streams[i];
