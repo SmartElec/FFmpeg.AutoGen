@@ -27,8 +27,11 @@ namespace FFmpeg.AutoGen.Example
             for (var i = 0; i < _pFormatContext->nb_streams; i++)
                 if (_pFormatContext->streams[i]->codec->codec_type == AVMediaType.AVMEDIA_TYPE_VIDEO)
                 {
-                    pStream = _pFormatContext->streams[i];
-                    break;
+                    if((_pFormatContext->streams[i]->codec->width!=0)&&(_pFormatContext->streams[i]->codec->height != 0))
+                    {
+                        pStream = _pFormatContext->streams[i];
+                        break;
+                    }
                 }
 
             if (pStream == null) throw new InvalidOperationException("Could not found video stream.");
@@ -40,6 +43,8 @@ namespace FFmpeg.AutoGen.Example
             var pCodec = ffmpeg.avcodec_find_decoder(codecId);
             if (pCodec == null) throw new InvalidOperationException("Unsupported codec.");
 
+            FrameNumber = pStream->nb_frames;
+            Frame_fps=(float)pStream->r_frame_rate.num / pStream->r_frame_rate.den;
             ffmpeg.avcodec_open2(_pCodecContext, pCodec, null).ThrowExceptionIfError();
 
             CodecName = ffmpeg.avcodec_get_name(codecId);
@@ -52,6 +57,8 @@ namespace FFmpeg.AutoGen.Example
 
         public string CodecName { get; }
         public Size FrameSize { get; }
+        public long FrameNumber { get; }
+        public float Frame_fps { get; }
         public AVPixelFormat PixelFormat { get; }
 
         public void Dispose()
