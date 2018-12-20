@@ -43,7 +43,7 @@ namespace FFmpeg.AutoGen.Example
             var pCodec = ffmpeg.avcodec_find_decoder(codecId);
             if (pCodec == null) throw new InvalidOperationException("Unsupported codec.");
 
-            FrameNumber = pStream->nb_frames;
+            Frame_Number = pStream->nb_frames;
             Frame_fps=(float)pStream->r_frame_rate.num / pStream->r_frame_rate.den;
             ffmpeg.avcodec_open2(_pCodecContext, pCodec, null).ThrowExceptionIfError();
 
@@ -57,7 +57,7 @@ namespace FFmpeg.AutoGen.Example
 
         public string CodecName { get; }
         public Size FrameSize { get; }
-        public long FrameNumber { get; }
+        public long Frame_Number { get; }
         public float Frame_fps { get; }
         public AVPixelFormat PixelFormat { get; }
 
